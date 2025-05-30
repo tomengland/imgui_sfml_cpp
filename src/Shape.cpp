@@ -105,6 +105,12 @@ Circle::Circle(const std::string &shapeType, const std::string &shapeName, float
 
 float Circle::getRadius() const { return m_radius; }
 
+void Circle::setRadius(float radius)
+{
+    m_radius = radius;
+    updateSFMLShape();
+}
+
 void Circle::updateSFMLShape()
 {
     m_circle.setPosition(sf::Vector2f(m_positionX, m_positionY));

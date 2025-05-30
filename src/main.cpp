@@ -66,6 +66,8 @@ int main()
 {
     WindowConfig config;
     std::vector<std::shared_ptr<Shape> > shapes;
+    int selectedShapeIndex = 0;
+
     readFile("config.txt", shapes, config);
     if (shapes.empty())
     {
@@ -96,9 +98,58 @@ int main()
         ImGui::SFML::Update(window, deltaTime.restart());
 
         // draw the ui
-        ImGui::Begin("Shape Controller");
-        ImGui::Text("Active Shapes: %zu", shapes.size());
-        ImGui::End();
+        // Create dropdown for shapes
+        if (!shapes.empty())
+        {
+            if (ImGui::BeginCombo("Select Shape", shapes[selectedShapeIndex]->getShapeName().c_str()))
+            {
+                for (int i = 0; i < shapes.size(); i++)
+                {
+                    bool isSelected = (selectedShapeIndex == i);
+                    if (ImGui::Selectable(shapes[i]->getShapeName().c_str(), isSelected))
+                    {
+                        selectedShapeIndex = i;
+                    }
+                    if (isSelected)
+                    {
+                        ImGui::SetItemDefaultFocus();
+                    }
+                }
+                ImGui::EndCombo();
+            }
+
+            // Get reference to selected shape for easier access
+            auto &selectedShape = shapes[selectedShapeIndex];
+
+            ImGui::Separator();
+            ImGui::Text("Shape Properties");
+            ImGui::Text("Selected: %s (%s)", selectedShape->getShapeName().c_str(),
+                        selectedShape->getShapeType().c_str());
+
+
+            // Shape-specific properties
+            if (selectedShape->getShapeType() == "Circle")
+            {
+                auto circle = std::dynamic_pointer_cast<Circle>(selectedShape);
+                if (circle)
+                {
+                    float radius = circle->getRadius();
+                    if (ImGui::SliderFloat("Radius", &radius, 1.0f, 200.0f))
+                    {
+                        circle->setRadius(radius);
+                    }
+                }
+            } else if (selectedShape->getShapeType() == "Rectangle")
+            {
+                auto rectangle = std::dynamic_pointer_cast<Rectangle>(selectedShape);
+                if (rectangle)
+                {
+                }
+            }
+
+            ImGui::Separator();
+        }
+
         // Update shapes
         window.clear();
         // Draw shapes

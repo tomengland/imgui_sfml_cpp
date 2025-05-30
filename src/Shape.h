@@ -82,6 +82,8 @@ public:
 
     float getRadius() const;
 
+    void setRadius(float radius);
+
     void updateSFMLShape();
 
     void update(const sf::Vector2u &windowSize) override;
