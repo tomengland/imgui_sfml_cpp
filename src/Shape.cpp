@@ -3,6 +3,8 @@
 //
 #include "Shape.h"
 
+#include "SFML/System/Vector2.hpp"
+
 Shape::Shape(const std::string &shapeType, const std::string &shapeName, float positionX, float positionY, float speedX,
              float speedY, int red,
              int green, int blue)
@@ -38,6 +40,12 @@ void Shape::setShapeName(const std::string &shapeName)
 
 float Shape::getPositionX() const { return m_positionX; }
 float Shape::getPositionY() const { return m_positionY; }
+
+sf::Vector2f Shape::setPosition() const
+{
+    return sf::Vector2f(m_positionX + m_speedX, m_positionY + m_speedY);
+}
+
 int Shape::getRed() const { return m_red; }
 int Shape::getGreen() const { return m_green; }
 int Shape::getBlue() const { return m_blue; }

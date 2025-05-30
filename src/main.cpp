@@ -66,10 +66,12 @@ int main()
 {
     WindowConfig config;
     std::vector<std::shared_ptr<Shape> > shapes;
+    std::vector<sf::CircleShape> sfml_circles;
     readFile("config.txt", shapes, config);
-    for (auto &shape: shapes)
+    if (shapes.empty())
     {
-        std::cout << "Shape Type: " << shape->getShapeType() << std::endl;
+        std::cerr << "No shapes found in the configuration file." << std::endl;
+        return 1;
     }
     sf::RenderWindow window(sf::VideoMode({config.wWidth, config.wHeight}), "SFML Works!");
     window.setFramerateLimit(60);
@@ -95,6 +97,7 @@ int main()
     sf::CircleShape circle(circleRadius, circleSegments);
     circle.setPosition(sf::Vector2f(10.0f, 10.0f));
 
+
     while (window.isOpen())
     {
         while (const std::optional event = window.pollEvent())
@@ -117,11 +120,8 @@ int main()
         circle.setPosition(newPosition);
 
         window.clear();
-        // Draw all shapes
-        if (drawCircle)
-        {
-            window.draw(circle);
-        }
+        // Draw shapes
+
         ImGui::SFML::Render(window);
         window.display();
     }

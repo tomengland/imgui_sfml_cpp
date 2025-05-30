@@ -1,6 +1,8 @@
 #pragma once
 #include <string>
 
+#include "SFML/System/Vector2.hpp"
+
 class Shape {
 protected:
     std::string m_ShapeName;
@@ -29,6 +31,9 @@ public:
     float getPositionX() const;
 
     float getPositionY() const;
+
+    sf::Vector2f setPosition() const;
+
 
     int getRed() const;
 
