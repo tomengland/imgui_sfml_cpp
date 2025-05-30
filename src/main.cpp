@@ -23,7 +23,7 @@ void readFile(const std::string &filePath, std::vector<std::shared_ptr<Shape> > 
     std::ifstream file(filePath);
     if (!file.is_open())
     {
-        std::cerr << "Error opening file: " << filePath << std::endl;
+        std::cerr << "Error opening config file: " << filePath << std::endl;
         return;
     }
     std::string tempLine;
