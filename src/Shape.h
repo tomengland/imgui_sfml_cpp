@@ -23,7 +23,7 @@ public:
           float speedY, int red,
           int green, int blue);
 
-    virtual void update();
+    virtual void update(const sf::Vector2u &windowSize) = 0;
 
     virtual void draw(sf::RenderWindow &window) const = 0;
 
@@ -51,6 +51,7 @@ class Rectangle : public Shape {
 private:
     float m_sizeWidth;
     float m_sizeHeight;
+    sf::RectangleShape m_rectangle;
 
 public:
     Rectangle(const std::string &shapeType, const std::string &shapeName, float positionX, float positionY,
@@ -59,7 +60,12 @@ public:
 
     float getSizeWidth() const;
 
+    void update(const sf::Vector2u &windowSize) override;
+
     float getSizeHeight() const;
+
+    void updateSFMLShape();
+
 
     void draw(sf::RenderWindow &window) const;
 };
@@ -67,6 +73,7 @@ public:
 class Circle : public Shape {
 private:
     float m_radius;
+    sf::CircleShape m_circle;
 
 public:
     Circle(const std::string &shapeType, const std::string &shapeName, float positionX, float positionY, float speedX,
@@ -74,6 +81,11 @@ public:
            int green, int blue, float radius);
 
     float getRadius() const;
+
+    void updateSFMLShape();
+
+    void update(const sf::Vector2u &windowSize) override;
+
 
     void draw(sf::RenderWindow &window) const;
 };

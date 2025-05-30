@@ -72,7 +72,7 @@ int main()
         std::cerr << "No shapes found in the configuration file." << std::endl;
         return 1;
     }
-    sf::RenderWindow window(sf::VideoMode({config.wWidth, config.wHeight}), "SFML Works!");
+    sf::RenderWindow window(sf::VideoMode({config.wWidth, config.wHeight}), "Clair Expedition: 34");
     window.setFramerateLimit(60);
 
     // initialize IMGUI
@@ -104,7 +104,7 @@ int main()
         // Draw shapes
         for (auto &shape: shapes)
         {
-            shape->update();
+            shape->update(window.getSize());
             shape->draw(window);
         }
         ImGui::SFML::Render(window);
