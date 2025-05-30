@@ -1,6 +1,9 @@
 #pragma once
 #include <string>
 
+#include "SFML/Graphics/CircleShape.hpp"
+#include "SFML/Graphics/RectangleShape.hpp"
+#include "SFML/Graphics/RenderWindow.hpp"
 #include "SFML/System/Vector2.hpp"
 
 class Shape {
@@ -22,6 +25,8 @@ public:
 
     virtual void update();
 
+    virtual void draw(sf::RenderWindow &window) const = 0;
+
     const std::string &getShapeName() const;
 
     void setShapeName(const std::string &shapeName);
@@ -32,7 +37,7 @@ public:
 
     float getPositionY() const;
 
-    sf::Vector2f setPosition() const;
+    sf::Vector2f getPosition() const;
 
 
     int getRed() const;
@@ -55,6 +60,8 @@ public:
     float getSizeWidth() const;
 
     float getSizeHeight() const;
+
+    void draw(sf::RenderWindow &window) const;
 };
 
 class Circle : public Shape {
@@ -67,4 +74,6 @@ public:
            int green, int blue, float radius);
 
     float getRadius() const;
+
+    void draw(sf::RenderWindow &window) const;
 };

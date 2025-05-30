@@ -66,7 +66,6 @@ int main()
 {
     WindowConfig config;
     std::vector<std::shared_ptr<Shape> > shapes;
-    std::vector<sf::CircleShape> sfml_circles;
     readFile("config.txt", shapes, config);
     if (shapes.empty())
     {
@@ -81,21 +80,6 @@ int main()
     sf::Clock deltaTime;
     ImGui::GetStyle().ScaleAllSizes(2.0f);
     ImGui::GetIO().FontGlobalScale = 2.0f;
-
-
-    // set up default circle (keeping for compatibility)
-
-
-    float circleRadius = 50;
-    int circleSegments = 32;
-    float circleSpeedX = 1.0f;
-    float circleSpeedY = 1.0f;
-    bool drawCircle    = true;
-    bool drawText      = true;
-
-    // create sfml elements
-    sf::CircleShape circle(circleRadius, circleSegments);
-    circle.setPosition(sf::Vector2f(10.0f, 10.0f));
 
 
     while (window.isOpen())
@@ -115,13 +99,14 @@ int main()
         ImGui::Begin("Shape Controller");
         ImGui::Text("Active Shapes: %zu", shapes.size());
         ImGui::End();
-
-        sf::Vector2f newPosition = {circle.getPosition().x + circleSpeedX, circle.getPosition().y + circleSpeedY};
-        circle.setPosition(newPosition);
-
+        // Update shapes
         window.clear();
         // Draw shapes
-
+        for (auto &shape: shapes)
+        {
+            shape->update();
+            shape->draw(window);
+        }
         ImGui::SFML::Render(window);
         window.display();
     }

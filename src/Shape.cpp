@@ -41,7 +41,7 @@ void Shape::setShapeName(const std::string &shapeName)
 float Shape::getPositionX() const { return m_positionX; }
 float Shape::getPositionY() const { return m_positionY; }
 
-sf::Vector2f Shape::setPosition() const
+sf::Vector2f Shape::getPosition() const
 {
     return sf::Vector2f(m_positionX + m_speedX, m_positionY + m_speedY);
 }
@@ -63,6 +63,14 @@ Rectangle::Rectangle(const std::string &shapeType, const std::string &shapeName,
 float Rectangle::getSizeWidth() const { return m_sizeWidth; }
 float Rectangle::getSizeHeight() const { return m_sizeHeight; }
 
+void Rectangle::draw(sf::RenderWindow &window) const
+{
+    sf::RectangleShape rect(sf::Vector2f(m_sizeWidth, m_sizeHeight));
+    rect.setPosition(sf::Vector2f(m_positionX, m_positionY));
+    rect.setFillColor(sf::Color(m_red, m_green, m_blue));
+    window.draw(rect);
+}
+
 Circle::Circle(const std::string &shapeType, const std::string &shapeName, float positionX, float positionY,
                float speedX, float speedY, int red,
                int green, int blue, float radius)
@@ -72,3 +80,11 @@ Circle::Circle(const std::string &shapeType, const std::string &shapeName, float
 }
 
 float Circle::getRadius() const { return m_radius; }
+
+void Circle::draw(sf::RenderWindow &window) const
+{
+    sf::CircleShape circle(m_radius);
+    circle.setPosition(sf::Vector2f(m_positionX, m_positionY));
+    circle.setFillColor(sf::Color(m_red, m_green, m_blue));
+    window.draw(circle);
+}
