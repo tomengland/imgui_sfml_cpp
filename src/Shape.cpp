@@ -57,34 +57,46 @@ Rectangle::Rectangle(const std::string &shapeType, const std::string &shapeName,
     updateSFMLShape();
 }
 
-float Rectangle::getSizeWidth() const { return m_sizeWidth; }
-
 void Rectangle::update(const sf::Vector2u &windowSize)
 {
     // Rectangle-specific update logic
     m_positionX += m_speedX;
     m_positionY += m_speedY;
+    updateSFMLShape();
+    // Get global bounds for collision detection
+    sf::FloatRect bounds = m_rectangle.getGlobalBounds();
+    // Check X boundaries
+    if (bounds.position.x < 0)
+    {
+        m_speedX    = -m_speedX;
+        m_positionX = 0; // Reset to left edge
+    } else if (bounds.position.x + bounds.size.x > windowSize.x)
+    {
+        m_speedX    = -m_speedX;
+        m_positionX = windowSize.x - (m_sizeWidth * m_scaleFactor); // Reset to right edge
+    }
+    // Check Y boundaries
+    if (bounds.position.y < 0)
+    {
+        m_speedY    = -m_speedY;
+        m_positionY = 0; // Reset to top edge
+    } else if (bounds.position.y + bounds.size.y > windowSize.y)
+    {
+        m_speedY    = -m_speedY;
+        m_positionY = windowSize.y - (m_sizeHeight * m_scaleFactor); // Reset to bottom edge
+    }
 
-    // Rectangle boundary checking (using width/height)
-    if (m_positionX < 0 || m_positionX + m_sizeWidth > windowSize.x)
-    {
-        m_speedX = -m_speedX;
-    }
-    if (m_positionY < 0 || m_positionY + m_sizeHeight > windowSize.y)
-    {
-        m_speedY = -m_speedY;
-    }
-    // ... more rectangle logic
+    // Update SFML shape with corrected position
     updateSFMLShape();
 }
 
-float Rectangle::getSizeHeight() const { return m_sizeHeight; }
 
 void Rectangle::updateSFMLShape()
 {
     m_rectangle.setPosition(sf::Vector2f(m_positionX, m_positionY));
     m_rectangle.setFillColor(sf::Color(m_red, m_green, m_blue));
     m_rectangle.setSize(sf::Vector2f(m_sizeWidth, m_sizeHeight));
+    m_rectangle.setScale(sf::Vector2f(m_scaleFactor, m_scaleFactor));
 }
 
 void Rectangle::draw(sf::RenderWindow &window) const
@@ -92,6 +104,15 @@ void Rectangle::draw(sf::RenderWindow &window) const
     window.draw(m_rectangle);
 }
 
+float Rectangle::getScaleFactor()
+{
+    return m_scaleFactor;
+}
+
+void Rectangle::setScaleFactor(float scaleFactor)
+{
+    m_scaleFactor = scaleFactor;
+}
 
 Circle::Circle(const std::string &shapeType, const std::string &shapeName, float positionX, float positionY,
                float speedX, float speedY, int red,

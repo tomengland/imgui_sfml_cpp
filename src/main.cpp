@@ -55,7 +55,6 @@ void readFile(const std::string &filePath, std::vector<std::shared_ptr<Shape> > 
                 file >> sizeWidth >> sizeHeight;
                 shapes.push_back(std::make_shared<Rectangle>(tempLine, shapeName, positionX, positionY, speedX, speedY,
                                                              red, green, blue, sizeWidth, sizeHeight));
-                std::cout << "Shape added" << std::endl;
             }
         }
     }
@@ -144,6 +143,11 @@ int main()
                 auto rectangle = std::dynamic_pointer_cast<Rectangle>(selectedShape);
                 if (rectangle)
                 {
+                    float scaleFactor = rectangle->getScaleFactor();
+                    if (ImGui::SliderFloat("Scale Factor", &scaleFactor, 0.5f, 5.0f))
+                    {
+                        rectangle->setScaleFactor(scaleFactor);
+                    }
                 }
             }
 

@@ -52,22 +52,23 @@ private:
     float m_sizeWidth;
     float m_sizeHeight;
     sf::RectangleShape m_rectangle;
+    float m_scaleFactor = 1.0f;
 
 public:
     Rectangle(const std::string &shapeType, const std::string &shapeName, float positionX, float positionY,
               float speedX, float speedY, int red,
               int green, int blue, float sizeWidth, float sizeHeight);
 
-    float getSizeWidth() const;
-
     void update(const sf::Vector2u &windowSize) override;
-
-    float getSizeHeight() const;
 
     void updateSFMLShape();
 
 
-    void draw(sf::RenderWindow &window) const;
+    void draw(sf::RenderWindow &window) const override;
+
+    float getScaleFactor();
+
+    void setScaleFactor(float scaleFactor);
 };
 
 class Circle : public Shape {
@@ -89,5 +90,5 @@ public:
     void update(const sf::Vector2u &windowSize) override;
 
 
-    void draw(sf::RenderWindow &window) const;
+    void draw(sf::RenderWindow &window) const override;
 };
