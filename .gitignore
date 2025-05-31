@@ -1,0 +1,88 @@
+# CMake build directories
+build/
+build-*/
+cmake-build-*/
+out/
+
+# CMake cache and files
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile
+*.cmake
+!CMakeLists.txt
+!*.cmake.in
+
+# FetchContent downloaded dependencies
+_deps/
+
+# Generated files
+install_manifest.txt
+compile_commands.json
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Visual Studio
+.vs/
+*.vcxproj*
+*.sln
+*.user
+
+# Xcode
+*.xcodeproj/
+*.xcworkspace/
+
+# Executables
+*.exe
+*.out
+*.app
+
+# Object files
+*.o
+*.obj
+*.so
+*.dylib
+*.dll
+*.a
+*.lib
+
+# Debug files
+*.dSYM/
+*.pdb
+
+# Testing
+Testing/
+CTestTestfile.cmake
+
+# CPack
+_CPack_Packages/
+*.dmg
+*.rpm
+*.deb
+*.tar.gz
+
+# Conan (if you ever use it)
+conandata.txt
+conaninfo.txt
+conanbuildinfo.*
+
+# vcpkg (if you ever use it)
+vcpkg_installed/
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.temp
