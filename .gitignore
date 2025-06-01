@@ -3,6 +3,8 @@ build/
 build-*/
 cmake-build-*/
 out/
+cmake-build-*/_deps/
+**/cmake-build-*/_deps/
 
 # CMake cache and files
 CMakeCache.txt
