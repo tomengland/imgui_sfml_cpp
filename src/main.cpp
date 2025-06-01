@@ -137,6 +137,7 @@ int main()
                     {
                         circle->setRadius(radius);
                     }
+                    ImGui::Checkbox("Draw Shape", &circle->getDrawableRef());
                 }
             } else if (selectedShape->getShapeType() == "Rectangle")
             {
@@ -148,6 +149,7 @@ int main()
                     {
                         rectangle->setScaleFactor(scaleFactor);
                     }
+                    ImGui::Checkbox("Draw Shape", &rectangle->getDrawableRef());
                 }
             }
 

@@ -53,11 +53,14 @@ private:
     float m_sizeHeight;
     sf::RectangleShape m_rectangle;
     float m_scaleFactor = 1.0f;
+    bool m_Drawable     = true;
 
 public:
     Rectangle(const std::string &shapeType, const std::string &shapeName, float positionX, float positionY,
               float speedX, float speedY, int red,
               int green, int blue, float sizeWidth, float sizeHeight);
+
+    void setDrawable(bool value);
 
     void update(const sf::Vector2u &windowSize) override;
 
@@ -69,12 +72,15 @@ public:
     float getScaleFactor();
 
     void setScaleFactor(float scaleFactor);
+
+    bool &getDrawableRef();
 };
 
 class Circle : public Shape {
 private:
     float m_radius;
     sf::CircleShape m_circle;
+    bool m_Drawable = true;
 
 public:
     Circle(const std::string &shapeType, const std::string &shapeName, float positionX, float positionY, float speedX,
@@ -82,6 +88,10 @@ public:
            int green, int blue, float radius);
 
     float getRadius() const;
+
+    void setDrawable(bool value);
+
+    bool &getDrawableRef();
 
     void setRadius(float radius);
 

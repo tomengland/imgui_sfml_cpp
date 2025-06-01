@@ -53,8 +53,14 @@ Rectangle::Rectangle(const std::string &shapeType, const std::string &shapeName,
       m_sizeWidth(sizeWidth),
       m_sizeHeight(sizeHeight),
       m_rectangle(sf::Vector2f(m_sizeWidth, m_sizeHeight))
+
 {
     updateSFMLShape();
+}
+
+void Rectangle::setDrawable(bool value)
+{
+    m_Drawable = value;
 }
 
 void Rectangle::update(const sf::Vector2u &windowSize)
@@ -101,7 +107,10 @@ void Rectangle::updateSFMLShape()
 
 void Rectangle::draw(sf::RenderWindow &window) const
 {
-    window.draw(m_rectangle);
+    if (m_Drawable)
+    {
+        window.draw(m_rectangle);
+    }
 }
 
 float Rectangle::getScaleFactor()
@@ -112,6 +121,11 @@ float Rectangle::getScaleFactor()
 void Rectangle::setScaleFactor(float scaleFactor)
 {
     m_scaleFactor = scaleFactor;
+}
+
+bool &Rectangle::getDrawableRef()
+{
+    return m_Drawable;
 }
 
 Circle::Circle(const std::string &shapeType, const std::string &shapeName, float positionX, float positionY,
@@ -125,6 +139,16 @@ Circle::Circle(const std::string &shapeType, const std::string &shapeName, float
 }
 
 float Circle::getRadius() const { return m_radius; }
+
+void Circle::setDrawable(bool value)
+{
+    m_Drawable = value;
+}
+
+bool &Circle::getDrawableRef()
+{
+    return m_Drawable;
+}
 
 void Circle::setRadius(float radius)
 {
@@ -160,7 +184,10 @@ void Circle::update(const sf::Vector2u &windowSize)
 
 void Circle::draw(sf::RenderWindow &window) const
 {
-    window.draw(m_circle);
+    if (m_Drawable)
+    {
+        window.draw(m_circle);
+    }
 }
 
 
