@@ -77,7 +77,11 @@ int main()
     window.setFramerateLimit(60);
 
     // initialize IMGUI
-    ImGui::SFML::Init(window);
+    if (!ImGui::SFML::Init(window))
+    {
+        std::cerr << "Failed to initialize ImGui-SFML" << std::endl;
+        return 1;
+    }
     sf::Clock deltaTime;
     ImGui::GetStyle().ScaleAllSizes(2.0f);
     ImGui::GetIO().FontGlobalScale = 2.0f;
