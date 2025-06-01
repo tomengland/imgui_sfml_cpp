@@ -12,7 +12,8 @@ CMakeFiles/
 cmake_install.cmake
 Makefile
 *.cmake
-!CMakeLists.txt
+!./CMakeLists.txt
+!src/**/CMakeLists.txt
 !*.cmake.in
 
 # FetchContent downloaded dependencies
