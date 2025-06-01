@@ -31,5 +31,6 @@ FetchContent_MakeAvailable(ImGui-SFML)
 add_executable(Zombie src/main.cpp
         src/Shape.cpp
 )
-target_compile_features(Zombie PRIVATE cxx_std_17)
+target_compile_features(Zombie PRIVATE cxx_std_20)
+target_compile_options(Zombie PRIVATE -Wall -Wextra -Wpedantic -Werror)
 target_link_libraries(Zombie PRIVATE SFML::Graphics ImGui-SFML::ImGui-SFML)
