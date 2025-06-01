@@ -73,7 +73,8 @@ int main()
         std::cerr << "No shapes found in the configuration file." << std::endl;
         return 1;
     }
-    sf::RenderWindow window(sf::VideoMode({config.wWidth, config.wHeight}), "Clair Expedition: 34 .. heh");
+    sf::RenderWindow window(sf::VideoMode({config.wWidth, config.wHeight}), "Clair Expedition: 34 .. heh",
+                            sf::Style::Close);
     window.setFramerateLimit(60);
 
     // initialize IMGUI
