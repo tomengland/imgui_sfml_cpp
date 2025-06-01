@@ -65,8 +65,8 @@ int main()
 {
     WindowConfig config;
     std::vector<std::shared_ptr<Shape> > shapes;
-    int selectedShapeIndex = 0;
-    char buffer[255]       = "";
+    size_t selectedShapeIndex = 0;
+    char buffer[255]          = "";
     readFile("config.txt", shapes, config);
     if (shapes.empty())
     {
@@ -106,7 +106,7 @@ int main()
         {
             if (ImGui::BeginCombo("Select Shape", shapes[selectedShapeIndex]->getShapeName().c_str()))
             {
-                for (int i = 0; i < shapes.size(); i++)
+                for (size_t i = 0; i < shapes.size(); i++)
                 {
                     bool isSelected = (selectedShapeIndex == i);
                     if (ImGui::Selectable(shapes[i]->getShapeName().c_str(), isSelected))

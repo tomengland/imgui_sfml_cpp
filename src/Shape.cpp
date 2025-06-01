@@ -21,7 +21,7 @@ Shape::Shape(const std::string &shapeType, const std::string &shapeName, float p
 }
 
 
-const std::string &Shape::getShapeName() const { return m_ShapeName; }
+std::string Shape::getShapeName() const { return m_ShapeName; }
 
 const std::string &Shape::getShapeType() const
 {
@@ -38,7 +38,7 @@ float Shape::getPositionY() const { return m_positionY; }
 
 sf::Vector2f Shape::getPosition() const
 {
-    return sf::Vector2f(m_positionX + m_speedX, m_positionY + m_speedY);
+    return {m_positionX + m_speedX, m_positionY + m_speedY};
 }
 
 int Shape::getRed() const { return m_red; }
@@ -92,7 +92,7 @@ void Rectangle::update(const sf::Vector2u &windowSize)
         m_positionY = windowSize.y - (m_sizeHeight * m_scaleFactor); // Reset to bottom edge
     }
 
-    // Update SFML shape with corrected position
+    // Update SFML shape with correct position.
     updateSFMLShape();
 }
 
@@ -113,7 +113,7 @@ void Rectangle::draw(sf::RenderWindow &window) const
     }
 }
 
-float Rectangle::getScaleFactor()
+float Rectangle::getScaleFactor() const
 {
     return m_scaleFactor;
 }

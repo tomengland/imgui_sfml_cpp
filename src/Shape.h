@@ -23,28 +23,30 @@ public:
           float speedY, int red,
           int green, int blue);
 
+    virtual ~Shape() = default;
+
     virtual void update(const sf::Vector2u &windowSize) = 0;
 
     virtual void draw(sf::RenderWindow &window) const = 0;
 
-    const std::string &getShapeName() const;
+    [[nodiscard]] std::string getShapeName() const;
 
     void setShapeName(const std::string &shapeName);
 
-    const std::string &getShapeType() const;
+    [[nodiscard]] const std::string &getShapeType() const;
 
-    float getPositionX() const;
+    [[nodiscard]] float getPositionX() const;
 
-    float getPositionY() const;
+    [[nodiscard]] float getPositionY() const;
 
-    sf::Vector2f getPosition() const;
+    [[nodiscard]] sf::Vector2f getPosition() const;
 
 
-    int getRed() const;
+    [[nodiscard]] int getRed() const;
 
-    int getGreen() const;
+    [[nodiscard]] int getGreen() const;
 
-    int getBlue() const;
+    [[nodiscard]] int getBlue() const;
 };
 
 class Rectangle : public Shape {
@@ -69,7 +71,7 @@ public:
 
     void draw(sf::RenderWindow &window) const override;
 
-    float getScaleFactor();
+    float getScaleFactor() const;
 
     void setScaleFactor(float scaleFactor);
 
