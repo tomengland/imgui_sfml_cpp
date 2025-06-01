@@ -2,6 +2,9 @@ cmake_minimum_required(VERSION 3.28)
 project(Zombie LANGUAGES CXX)
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+set(CMAKE_CXX_SCAN_FOR_MODULES OFF)
+set(FETCHCONTENT_QUIET OFF)
+set(FETCHCONTENT_UPDATES_DISCONNECTED ON)
 
 
 include(FetchContent)
@@ -33,4 +36,5 @@ add_executable(Zombie src/main.cpp
         src/Shape.cpp
 )
 target_compile_features(Zombie PRIVATE cxx_std_20)
+target_compile_options(Zombie PRIVATE -Wall -Wextra -Wpedantic -Werror)
 target_link_libraries(Zombie PRIVATE SFML::Graphics ImGui-SFML::ImGui-SFML)
