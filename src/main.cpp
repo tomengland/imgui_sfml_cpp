@@ -122,7 +122,7 @@ int main()
                 ImGui::EndCombo();
             }
 
-            // Get reference to selected shape for easier access
+            // Get reference to the selected shape for easier access
             auto &selectedShape = shapes[selectedShapeIndex];
 
             ImGui::Separator();
@@ -138,8 +138,7 @@ int main()
             // Shape-specific properties
             if (selectedShape->getShapeType() == "Circle")
             {
-                auto circle = std::dynamic_pointer_cast<Circle>(selectedShape);
-                if (circle)
+                if (auto circle = std::dynamic_pointer_cast<Circle>(selectedShape))
                 {
                     float radius = circle->getRadius();
                     if (ImGui::SliderFloat("Radius", &radius, 1.0f, 200.0f))
@@ -150,8 +149,7 @@ int main()
                 }
             } else if (selectedShape->getShapeType() == "Rectangle")
             {
-                auto rectangle = std::dynamic_pointer_cast<Rectangle>(selectedShape);
-                if (rectangle)
+                if (auto rectangle = std::dynamic_pointer_cast<Rectangle>(selectedShape))
                 {
                     float scaleFactor = rectangle->getScaleFactor();
                     if (ImGui::SliderFloat("Scale Factor", &scaleFactor, 0.5f, 5.0f))
