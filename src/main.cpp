@@ -66,7 +66,7 @@ int main()
     WindowConfig config;
     std::vector<std::shared_ptr<Shape> > shapes;
     int selectedShapeIndex = 0;
-
+    char buffer[255]       = "";
     readFile("config.txt", shapes, config);
     if (shapes.empty())
     {
@@ -112,6 +112,7 @@ int main()
                     if (isSelected)
                     {
                         ImGui::SetItemDefaultFocus();
+                        buffer[0] = '\0';
                     }
                 }
                 ImGui::EndCombo();
@@ -124,7 +125,11 @@ int main()
             ImGui::Text("Shape Properties");
             ImGui::Text("Selected: %s (%s)", selectedShape->getShapeName().c_str(),
                         selectedShape->getShapeType().c_str());
-
+            ImGui::InputText("Shape Name", buffer, sizeof(buffer));
+            if (ImGui::Button("Change Shape Text"))
+            {
+                selectedShape->setShapeName(buffer);
+            }
 
             // Shape-specific properties
             if (selectedShape->getShapeType() == "Circle")
