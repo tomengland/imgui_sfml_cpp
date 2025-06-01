@@ -3,13 +3,14 @@
 //
 #include "Shape.h"
 
+#include <utility>
 #include "SFML/System/Vector2.hpp"
 
-Shape::Shape(const std::string &shapeType, const std::string &shapeName, float positionX, float positionY, float speedX,
+Shape::Shape(std::string shapeType, std::string shapeName, float positionX, float positionY, float speedX,
              float speedY, int red,
              int green, int blue)
-    : m_ShapeName(shapeName),
-      m_ShapeType(shapeType),
+    : m_ShapeName(std::move(shapeName)),
+      m_ShapeType(std::move(shapeType)),
       m_positionX(positionX),
       m_positionY(positionY),
       m_speedX(speedX),
@@ -71,25 +72,27 @@ void Rectangle::update(const sf::Vector2u &windowSize)
     updateSFMLShape();
     // Get global bounds for collision detection
     sf::FloatRect bounds = m_rectangle.getGlobalBounds();
+    // convert windowSize to float.
+    const sf::Vector2f windowSizeF(windowSize);
     // Check X boundaries
     if (bounds.position.x < 0)
     {
         m_speedX    = -m_speedX;
         m_positionX = 0; // Reset to left edge
-    } else if (bounds.position.x + bounds.size.x > windowSize.x)
+    } else if (bounds.position.x + bounds.size.x > windowSizeF.x)
     {
         m_speedX    = -m_speedX;
-        m_positionX = windowSize.x - (m_sizeWidth * m_scaleFactor); // Reset to right edge
+        m_positionX = windowSizeF.x - (m_sizeWidth * m_scaleFactor); // Reset to right edge
     }
     // Check Y boundaries
     if (bounds.position.y < 0)
     {
         m_speedY    = -m_speedY;
         m_positionY = 0; // Reset to top edge
-    } else if (bounds.position.y + bounds.size.y > windowSize.y)
+    } else if (bounds.position.y + bounds.size.y > windowSizeF.y)
     {
         m_speedY    = -m_speedY;
-        m_positionY = windowSize.y - (m_sizeHeight * m_scaleFactor); // Reset to bottom edge
+        m_positionY = windowSizeF.y - (m_sizeHeight * m_scaleFactor); // Reset to bottom edge
     }
 
     // Update SFML shape with correct position.
@@ -168,13 +171,15 @@ void Circle::update(const sf::Vector2u &windowSize)
     // Circle-specific update logic
     m_positionX += m_speedX;
     m_positionY += m_speedY;
+    const sf::Vector2f windowSizeF(windowSize);
+
 
     // Circle boundary checking (using radius * 2 for diameter)
-    if (m_positionX < 0 || m_positionX + (m_radius * 2) > windowSize.x)
+    if (m_positionX < 0 || m_positionX + (m_radius * 2) > windowSizeF.x)
     {
         m_speedX = -m_speedX;
     }
-    if (m_positionY < 0 || m_positionY + (m_radius * 2) > windowSize.y)
+    if (m_positionY < 0 || m_positionY + (m_radius * 2) > windowSizeF.y)
     {
         m_speedY = -m_speedY;
     }
@@ -189,5 +194,3 @@ void Circle::draw(sf::RenderWindow &window) const
         window.draw(m_circle);
     }
 }
-
-

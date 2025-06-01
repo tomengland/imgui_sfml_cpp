@@ -19,7 +19,7 @@ protected:
     int m_blue;
 
 public:
-    Shape(const std::string &shapeType, const std::string &shapeName, float positionX, float positionY, float speedX,
+    Shape(std::string shapeType, std::string shapeName, float positionX, float positionY, float speedX,
           float speedY, int red,
           int green, int blue);
 
