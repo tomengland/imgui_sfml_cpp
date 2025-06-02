@@ -4,6 +4,7 @@
 #include "Shape.h"
 
 #include <utility>
+
 #include "SFML/System/Vector2.hpp"
 
 Shape::Shape(std::string shapeType, std::string shapeName, float positionX, float positionY, float speedX,
@@ -17,10 +18,23 @@ Shape::Shape(std::string shapeType, std::string shapeName, float positionX, floa
       m_speedY(speedY),
       m_red(red),
       m_green(green),
-      m_blue(blue)
+      m_blue(blue), m_text(m_font)
+
 {
+    m_text.setFont(m_font);
+    m_text.setPosition({m_positionX, m_positionY});
+    m_text.setCharacterSize(24);
+    m_text.setFillColor(sf::Color::White);
+    m_text.setString(m_ShapeName);
 }
 
+void Shape::setFont(const std::string &fontPath, int fontSize)
+{
+    m_font = sf::Font(fontPath.c_str());
+    m_text.setFont(m_font);
+    m_text.setCharacterSize(fontSize);
+    m_text.setFillColor(sf::Color::White);
+}
 
 std::string Shape::getShapeName() const { return m_ShapeName; }
 
@@ -39,7 +53,7 @@ float Shape::getPositionY() const { return m_positionY; }
 
 sf::Vector2f Shape::getPosition() const
 {
-    return {m_positionX + m_speedX, m_positionY + m_speedY};
+    return {m_positionX, m_positionY};
 }
 
 float &Shape::getSpeedX() { return m_speedX; }
@@ -98,6 +112,11 @@ void Rectangle::update(const sf::Vector2u &windowSize)
         m_positionY = windowSizeF.y - (m_sizeHeight * m_scaleFactor); // Reset to bottom edge
     }
 
+    sf::FloatRect textBounds = m_text.getGlobalBounds();
+    m_text.setPosition({
+        (getPositionX() + m_sizeWidth / 2) - textBounds.size.x / 2,
+        (getPositionY() + m_sizeHeight / 2) - textBounds.size.y / 2
+    });
     // Update SFML shape with correct position.
     updateSFMLShape();
 }
@@ -109,6 +128,7 @@ void Rectangle::updateSFMLShape()
     m_rectangle.setFillColor(sf::Color(m_red, m_green, m_blue));
     m_rectangle.setSize(sf::Vector2f(m_sizeWidth, m_sizeHeight));
     m_rectangle.setScale(sf::Vector2f(m_scaleFactor, m_scaleFactor));
+    m_text.setString(m_ShapeName);
 }
 
 void Rectangle::draw(sf::RenderWindow &window) const
@@ -116,12 +136,18 @@ void Rectangle::draw(sf::RenderWindow &window) const
     if (m_Drawable)
     {
         window.draw(m_rectangle);
+        window.draw(m_text);
     }
 }
 
 float Rectangle::getScaleFactor() const
 {
     return m_scaleFactor;
+}
+
+sf::FloatRect Rectangle::getGlobalBounds() const
+{
+    return m_rectangle.getGlobalBounds();
 }
 
 void Rectangle::setScaleFactor(float scaleFactor)
@@ -162,11 +188,17 @@ void Circle::setRadius(float radius)
     updateSFMLShape();
 }
 
+sf::FloatRect Circle::getGlobalBounds() const
+{
+    return m_circle.getGlobalBounds();
+}
+
 void Circle::updateSFMLShape()
 {
     m_circle.setPosition(sf::Vector2f(m_positionX, m_positionY));
     m_circle.setFillColor(sf::Color(m_red, m_green, m_blue));
     m_circle.setRadius(m_radius);
+    m_text.setString(m_ShapeName);
 }
 
 void Circle::update(const sf::Vector2u &windowSize)
@@ -186,6 +218,10 @@ void Circle::update(const sf::Vector2u &windowSize)
     {
         m_speedY = -m_speedY;
     }
+    sf::FloatRect textBounds = m_text.getGlobalBounds();
+    m_text.setPosition({
+        (getPositionX() + m_radius) - textBounds.size.x / 2, (getPositionY() + m_radius) - textBounds.size.y / 2
+    });
     // ... more circle logic
     updateSFMLShape();
 }
@@ -195,5 +231,6 @@ void Circle::draw(sf::RenderWindow &window) const
     if (m_Drawable)
     {
         window.draw(m_circle);
+        window.draw(m_text);
     }
 }

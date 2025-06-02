@@ -68,11 +68,18 @@ int main()
     size_t selectedShapeIndex = 0;
     char buffer[255]          = "";
     readFile("config.txt", shapes, config);
+
+    for (auto &shape: shapes)
+    {
+        shape->setFont(config.fontPath, config.fontSize);
+    }
     if (shapes.empty())
     {
         std::cerr << "No shapes found in the configuration file." << std::endl;
         return 1;
     }
+    sf::Font font(config.fontPath.c_str());
+
     sf::RenderWindow window(sf::VideoMode({config.wWidth, config.wHeight}), "Clair Expedition: 34 .. heh",
                             sf::Style::Close);
     window.setFramerateLimit(60);
@@ -85,7 +92,7 @@ int main()
     }
     sf::Clock deltaTime;
     ImGui::GetStyle().ScaleAllSizes(2.0f);
-    ImGui::GetIO().FontGlobalScale = 2.0f;
+    ImGui::GetIO().FontGlobalScale = 1.0f;
 
 
     while (window.isOpen())
@@ -129,12 +136,12 @@ int main()
 
             // Get reference to the selected shape for easier access
             auto &selectedShape = shapes[selectedShapeIndex];
-
             ImGui::Separator();
             ImGui::Text("Shape Properties");
             ImGui::Text("Selected: %s (%s)", selectedShape->getShapeName().c_str(),
                         selectedShape->getShapeType().c_str());
-            ImGui::InputTextWithHint("Shape Name", "Rename the ship", buffer, sizeof(buffer));
+            ImGui::InputTextWithHint("##", "Rename the ship", buffer, sizeof(buffer));
+            ImGui::SameLine();
             if (ImGui::Button("Change Shape Text"))
             {
                 selectedShape->setShapeName(buffer);
@@ -144,8 +151,6 @@ int main()
             ImGui::SliderFloat("Speed X", &speedX, -50.0f, 50.0f);
             ImGui::SliderFloat("Speed Y", &speedY, -50.0f, 50.0f);
 
-
-            // Shape-specific properties
             if (selectedShape->getShapeType() == "Circle")
             {
                 if (auto circle = std::dynamic_pointer_cast<Circle>(selectedShape))
@@ -181,6 +186,7 @@ int main()
             shape->update(window.getSize());
             shape->draw(window);
         }
+
         ImGui::SFML::Render(window);
         window.display();
     }

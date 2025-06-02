@@ -2,8 +2,10 @@
 #include <string>
 
 #include "SFML/Graphics/CircleShape.hpp"
+#include "SFML/Graphics/Font.hpp"
 #include "SFML/Graphics/RectangleShape.hpp"
 #include "SFML/Graphics/RenderWindow.hpp"
+#include "SFML/Graphics/Text.hpp"
 #include "SFML/System/Vector2.hpp"
 
 class Shape {
@@ -17,17 +19,23 @@ protected:
     int m_red;
     int m_green;
     int m_blue;
+    sf::Text m_text;
+    sf::Font m_font;
 
 public:
     Shape(std::string shapeType, std::string shapeName, float positionX, float positionY, float speedX,
           float speedY, int red,
           int green, int blue);
 
+    void setFont(const std::string &fontPath, int fontSize);
+
     virtual ~Shape() = default;
 
     virtual void update(const sf::Vector2u &windowSize) = 0;
 
     virtual void draw(sf::RenderWindow &window) const = 0;
+
+    virtual sf::FloatRect getGlobalBounds() const = 0;
 
     [[nodiscard]] std::string getShapeName() const;
 
@@ -77,6 +85,8 @@ public:
 
     float getScaleFactor() const;
 
+    sf::FloatRect getGlobalBounds() const override;
+
     void setScaleFactor(float scaleFactor);
 
     bool &getDrawableRef();
@@ -100,6 +110,8 @@ public:
     bool &getDrawableRef();
 
     void setRadius(float radius);
+
+    sf::FloatRect getGlobalBounds() const override;
 
     void updateSFMLShape();
 
