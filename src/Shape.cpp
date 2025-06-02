@@ -42,6 +42,9 @@ sf::Vector2f Shape::getPosition() const
     return {m_positionX + m_speedX, m_positionY + m_speedY};
 }
 
+float &Shape::getSpeedX() { return m_speedX; }
+float &Shape::getSpeedY() { return m_speedY; }
+
 int Shape::getRed() const { return m_red; }
 int Shape::getGreen() const { return m_green; }
 int Shape::getBlue() const { return m_blue; }

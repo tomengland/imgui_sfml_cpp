@@ -97,6 +97,10 @@ int main()
             if (event->is<sf::Event::Closed>())
             {
                 window.close();
+            } else if (const auto *keyPressed = event->getIf<sf::Event::KeyPressed>())
+            {
+                if (keyPressed->scancode == sf::Keyboard::Scancode::Escape)
+                    window.close();
             }
         }
         ImGui::SFML::Update(window, deltaTime.restart());
@@ -130,11 +134,16 @@ int main()
             ImGui::Text("Shape Properties");
             ImGui::Text("Selected: %s (%s)", selectedShape->getShapeName().c_str(),
                         selectedShape->getShapeType().c_str());
-            ImGui::InputText("Shape Name", buffer, sizeof(buffer));
+            ImGui::InputTextWithHint("Shape Name", "Rename the ship", buffer, sizeof(buffer));
             if (ImGui::Button("Change Shape Text"))
             {
                 selectedShape->setShapeName(buffer);
             }
+            float &speedX = selectedShape->getSpeedX();
+            float &speedY = selectedShape->getSpeedY();
+            ImGui::SliderFloat("Speed X", &speedX, -50.0f, 50.0f);
+            ImGui::SliderFloat("Speed Y", &speedY, -50.0f, 50.0f);
+
 
             // Shape-specific properties
             if (selectedShape->getShapeType() == "Circle")

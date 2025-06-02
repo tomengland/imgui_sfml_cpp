@@ -41,6 +41,10 @@ public:
 
     [[nodiscard]] sf::Vector2f getPosition() const;
 
+    float &getSpeedX();
+
+    float &getSpeedY();
+
 
     [[nodiscard]] int getRed() const;
 
