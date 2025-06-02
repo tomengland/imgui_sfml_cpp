@@ -112,12 +112,14 @@ void Rectangle::update(const sf::Vector2u &windowSize)
         m_positionY = windowSizeF.y - (m_sizeHeight * m_scaleFactor); // Reset to bottom edge
     }
 
-    sf::FloatRect textBounds = m_text.getGlobalBounds();
-    m_text.setPosition({
-        (getPositionX() + m_sizeWidth / 2) - textBounds.size.x / 2,
-        (getPositionY() + m_sizeHeight / 2) - textBounds.size.y / 2
-    });
-    // Update SFML shape with correct position.
+    sf::FloatRect textBounds  = m_text.getGlobalBounds();
+    sf::FloatRect shapeBounds = m_rectangle.getGlobalBounds();
+
+    float textPosX = shapeBounds.position.x + (shapeBounds.size.x - textBounds.size.x) / 2;
+    float textPosY = shapeBounds.position.y + (shapeBounds.size.y - textBounds.size.y) / 2;
+
+    m_text.setPosition({textPosX, textPosY});
+
     updateSFMLShape();
 }
 
