@@ -29,6 +29,8 @@ public:
 
     void setFont(const std::string &fontPath, int fontSize);
 
+    void updateFontSize(int fontSize);
+
     virtual ~Shape() = default;
 
     virtual void update(const sf::Vector2u &windowSize) = 0;

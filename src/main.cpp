@@ -18,7 +18,7 @@ struct WindowConfig {
     int font_b           = 255;
 };
 
-void readFile(const std::string &filePath, std::vector<std::shared_ptr<Shape> > &shapes, WindowConfig &config)
+void readFile(const std::string &filePath, std::vector<std::unique_ptr<Shape> > &shapes, WindowConfig &config)
 {
     std::ifstream file(filePath);
     if (!file.is_open())
@@ -47,13 +47,13 @@ void readFile(const std::string &filePath, std::vector<std::shared_ptr<Shape> > 
             {
                 float radius;
                 file >> radius;
-                shapes.push_back(std::make_shared<Circle>(tempLine, shapeName, positionX, positionY, speedX, speedY,
+                shapes.push_back(std::make_unique<Circle>(tempLine, shapeName, positionX, positionY, speedX, speedY,
                                                           red, green, blue, radius));
             } else if (tempLine == "Rectangle")
             {
                 float sizeWidth, sizeHeight;
                 file >> sizeWidth >> sizeHeight;
-                shapes.push_back(std::make_shared<Rectangle>(tempLine, shapeName, positionX, positionY, speedX, speedY,
+                shapes.push_back(std::make_unique<Rectangle>(tempLine, shapeName, positionX, positionY, speedX, speedY,
                                                              red, green, blue, sizeWidth, sizeHeight));
             }
         }
@@ -64,7 +64,7 @@ void readFile(const std::string &filePath, std::vector<std::shared_ptr<Shape> > 
 int main()
 {
     WindowConfig config;
-    std::vector<std::shared_ptr<Shape> > shapes;
+    std::vector<std::unique_ptr<Shape> > shapes;
     size_t selectedShapeIndex = 0;
     char buffer[255]          = "";
     readFile("config.txt", shapes, config);
@@ -150,10 +150,12 @@ int main()
             float &speedY = selectedShape->getSpeedY();
             ImGui::SliderFloat("Speed X", &speedX, -50.0f, 50.0f);
             ImGui::SliderFloat("Speed Y", &speedY, -50.0f, 50.0f);
+            ImGui::DragInt("Font Size", &config.fontSize, 1.0f, 16, 64);
+            selectedShape->updateFontSize(config.fontSize);
 
             if (selectedShape->getShapeType() == "Circle")
             {
-                if (auto circle = std::dynamic_pointer_cast<Circle>(selectedShape))
+                if (auto circle = dynamic_cast<Circle *>(selectedShape.get()))
                 {
                     float radius = circle->getRadius();
                     if (ImGui::SliderFloat("Radius", &radius, 1.0f, 200.0f))
@@ -164,7 +166,7 @@ int main()
                 }
             } else if (selectedShape->getShapeType() == "Rectangle")
             {
-                if (auto rectangle = std::dynamic_pointer_cast<Rectangle>(selectedShape))
+                if (auto rectangle = dynamic_cast<Rectangle *>(selectedShape.get()))
                 {
                     float scaleFactor = rectangle->getScaleFactor();
                     if (ImGui::SliderFloat("Scale Factor", &scaleFactor, 0.5f, 5.0f))

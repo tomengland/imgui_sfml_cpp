@@ -36,6 +36,11 @@ void Shape::setFont(const std::string &fontPath, int fontSize)
     m_text.setFillColor(sf::Color::White);
 }
 
+void Shape::updateFontSize(int fontSize)
+{
+    m_text.setCharacterSize(fontSize);
+}
+
 std::string Shape::getShapeName() const { return m_ShapeName; }
 
 const std::string &Shape::getShapeType() const
@@ -50,6 +55,7 @@ void Shape::setShapeName(const std::string &shapeName)
 
 float Shape::getPositionX() const { return m_positionX; }
 float Shape::getPositionY() const { return m_positionY; }
+
 
 sf::Vector2f Shape::getPosition() const
 {
@@ -111,7 +117,6 @@ void Rectangle::update(const sf::Vector2u &windowSize)
         m_speedY    = -m_speedY;
         m_positionY = windowSizeF.y - (m_sizeHeight * m_scaleFactor); // Reset to bottom edge
     }
-
     sf::FloatRect textBounds  = m_text.getGlobalBounds();
     sf::FloatRect shapeBounds = m_rectangle.getGlobalBounds();
 
